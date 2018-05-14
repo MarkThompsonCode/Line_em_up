@@ -1,0 +1,213 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+p, li {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0; 
+  text-align: justify;
+}
+
+p.i0 {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0; 
+  text-align: justify;
+  margin-bottom: 2pt;
+}
+
+p.i1 {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0; 
+  text-align: justify;
+  padding-left : 35pt;
+  margin-top: 2pt;
+  margin-bottom: 2pt;  
+}
+
+p.i2 {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0; 
+  text-align: justify;
+  padding-left : 70pt;
+  margin-top: 2pt;
+  margin-bottom: 2pt;  
+}
+
+div.centered {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+}
+
+div.source {        
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0; 
+  overflow: auto;
+  border: solid gray;
+  border-width: .1em .1em .1em .8em;
+  padding: .2em .6em;
+} 
+
+span.code {
+  font-family: "Courier New", Courier, monospace;
+}
+
+span.boldcode {
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+}
+
+span.math {
+  font-family: "Times New Roman", Times, serif;
+  font-style: italic;
+}
+
+span.hiddencode {
+  font-family: "Courier New", Courier, monospace;
+  color: transparent;
+}
+
+span.num {
+  color: #0000FF;
+  font-weight: bold;
+}
+
+span.label {
+  color: #8000FF;
+  font-weight: bold;
+}
+
+span.comment {
+  color: #008800; 
+  font-style: italic;
+  font-weight: bold;
+}
+
+span.nowrap {
+  white-space:nowrap;
+}
+
+p.img {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+} 
+
+img.math {
+  vertical-align: middle;
+}
+
+h1, h2, h3, h4 {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.img {  
+  margin-left: 15%;  
+  margin-right: 15%;  
+  background-color: transparent;
+  border-collapse: collapse;        
+}
+
+table.img th, table.img td {
+  text-align: center;
+  border: 0px transparent;
+  padding: 5px;
+}
+
+table.table1 {  
+  margin-left: 15%;  
+  margin-right: 15%;  
+  background-color: transparent;
+  border-collapse: collapse;        
+}
+
+table.table1 th, table.table1 td {
+  text-align: center;
+  border: 1px solid black;
+  padding: 5px;  
+}
+
+table.table1 td.num {
+  text-align: right;
+  border: 1px solid black;
+  padding: 5px;   
+  font-family: "Courier New", Courier, monospace;
+}
+
+table.table1 th {
+  background-color: AntiqueWhite;
+}
+
+table.table1 th.hidden {
+  border: 0;
+  background-color: transparent;
+}
+
+table.table1 th.side {
+  text-align: right;
+}
+
+table.table2 {  
+  margin-left: 15%;  
+  margin-right: 15%;  
+  background-color: transparent;
+  border-collapse: collapse;        
+}
+
+table.table2 th, table.table2 td {
+  text-align: center;
+  border: 1px solid black;
+  padding: 5px; 
+  width: 12.5%;
+}
+
+table.table2 th {
+  background-color: AntiqueWhite;
+}
+
+table.table3 {  
+  margin-left: 15%;  
+  margin-right: 15%;  
+  background-color: transparent;
+  border-collapse: collapse;        
+}
+
+table.table3 th {
+  text-align: center;
+  border: 1px solid black;
+  padding: 5px;  
+  width: auto;
+}
+
+table.table3 td {
+  text-align: center;
+  border: 1px solid black;
+  padding: 5px;  
+  width: 5%;
+}
+
+table.table3 th {
+  background-color: AntiqueWhite;
+}
+
+table.table3 th.hidden {
+  border: 0;
+  background-color: transparent;
+}
+
+table.table3 th.side {
+  text-align: right;
+}
