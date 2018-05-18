@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tetris", "Tetris.vcxproj", "{10B60092-05D2-4815-8761-58698D3DE90D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DX11_shared", "..\DX11\DX11_shared\DX11_shared.vcxitems", "{AAD56127-650A-4125-BB2C-68DB768517D6}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\DX11\DX11_shared\DX11_shared.vcxitems*{10b60092-05d2-4815-8761-58698d3de90d}*SharedItemsImports = 4
+		..\DX11\DX11_shared\DX11_shared.vcxitems*{aad56127-650a-4125-bb2c-68db768517d6}*SharedItemsImports = 9
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
@@ -24,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {55E0D32C-A3B7-4276-AB58-480762E7DB71}
 	EndGlobalSection
 EndGlobal

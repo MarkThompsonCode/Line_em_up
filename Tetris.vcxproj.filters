@@ -13,58 +13,10 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="DX11">
-      <UniqueIdentifier>{6a816237-3214-4c43-aba0-d346c0b6d140}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DX11\headers">
-      <UniqueIdentifier>{0581c9cd-6b68-40f1-a8ca-759d70abc86e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DX11\sources">
-      <UniqueIdentifier>{40d06b7d-16ab-4f9c-9e8a-852ff2ec0db8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="DX11\shaders">
-      <UniqueIdentifier>{bef6d809-4162-4d63-ba66-082f5ff829e5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\WICImage.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\window.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\Camera.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\debugging.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\DX11_base.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\File.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\icosahedron.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\Mesh.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\Drawable.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\Bitmap.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\Input.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\DX11\DDC9Input.cpp">
-      <Filter>DX11\sources</Filter>
     </ClCompile>
     <ClCompile Include="main2.cpp">
       <Filter>Source Files</Filter>
@@ -72,78 +24,5 @@
     <ClCompile Include="main3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\DX11\Keyboard.cpp">
-      <Filter>DX11\sources</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\DX11\debugging.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\DX11_base.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\File.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\icosahedron.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\Image.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\Input.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\input_layouts.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\Mesh.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\Triangle.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\types.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\Vertex.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\window.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\Camera.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\Cube.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\Quad.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\Drawable.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\Timer.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\DDC9Input.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\linked_list.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\DX11\Keyboard.h">
-      <Filter>DX11\headers</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\DX11_2D\shaders\VS_colour.hlsl">
-      <Filter>DX11\shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="..\DX11_2D\shaders\PS_colour.hlsl">
-      <Filter>DX11\shaders</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

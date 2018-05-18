@@ -1,19 +1,30 @@
 #include <map>
 
-#include "..\DX11\DX11_base.h"
-#include "..\DX11\Camera.h"
-#include "..\DX11\Quad.h"
+#include "DX11_base.h"
+#include "Camera.h"
+#include "Quad.h"
 
 using std::unique_ptr;
 using std::make_pair;
 using std::wstring;
-
+using std::map;
 
 // namespace line_em_up {}
 
 enum class direction { left , right , down , cw , ccw };
 
-const float block_layer = 0.0f;
+const struct
+{
+	float block = 0.0f;
+} layers;
+
+struct rectangle
+{
+	float left {};
+	float top {};
+	float right {};
+	float bottom {};
+};
 
 class Block
 {
@@ -25,34 +36,36 @@ class Block
 		//XMFLOAT2			m_position {};
 		float				m_width {};
 		float				m_height {};
-		RECT				m_border { };
+		rectangle			m_border { };
 
 	public:
 		
 		// default constructor
-		Block( const wstring in_image_filename )
+		Block( const wstring in_image_filename)//, XMFLOAT3 in_position )
 		{
 			m_quad = make_unique< Quad >( in_image_filename );
+
+			//m_quad->position( in_position );
 
 			m_width  = m_quad->width(); //textures.by_name("block_blue")->width();
 			m_height = m_quad->height();
 		}
 
 		// copy constructor
-		Block( const Block & in_block ) = delete;
+		Block( const Block & ) = delete; // unique_pointer cannot be copied
+
 		// copy assignment constructor
-		Block & operator = ( const Block & in_block ) = delete;
+		Block & operator = ( const Block & ) = delete; // unique_pointer cannot be copied
 
 		// move assignment operator
 		Block & operator = ( Block && in_block )
 		{
 			if( this != & in_block ) // copy self gaurd?
 			{
-				m_quad = move( in_block.m_quad ); // quad contains a unique pointer
+				m_quad = move( in_block.m_quad );
 
 				m_width = in_block.m_width;
 				m_height = in_block.m_height;
-
 				m_border = in_block.m_border;
 			}
 
@@ -66,7 +79,6 @@ class Block
 
 			m_width = in_block.m_width;
 			m_height = in_block.m_height;
-
 			m_border = in_block.m_border;
 		}
 
@@ -75,107 +87,106 @@ class Block
 
 		void position( const float in_x , const float in_y ) 
 		{ 
-			m_quad->position( XMFLOAT3( in_x , in_y , block_layer ) ); 
+			m_quad->position( XMFLOAT3( in_x , in_y , layers.block ) );
+
+			border();
 		}
+
 		const XMFLOAT3 position() const { return m_quad->position(); }
 
 		void update() { m_quad->update(); }
 		void render() { m_quad->render(); }
 
-		const float left_side() const { return ( m_quad->position().x - ( m_width + 0.5f ) ); }
+		//const float left_side() const { return ( m_quad->position().x - ( m_width + 0.5f ) ); }
 
-		RECT border()
+		rectangle border()
 		{
-			m_border.top		= m_quad->position().y - ( m_height * 0.5f );
-			m_border.left		= m_quad->position().x - ( m_width * 0.5f );
-			m_border.right		= m_quad->position().x + ( m_width * 0.5f );
-			m_border.bottom	= m_quad->position().y + ( m_height * 0.5f );
+			m_border.top	= m_quad->position().y + ( m_height * 0.5f );
+			m_border.bottom = m_quad->position().y - ( m_height * 0.5f );
+			m_border.left	= m_quad->position().x - ( m_width  * 0.5f );
+			m_border.right	= m_quad->position().x + ( m_width  * 0.5f );			
 
 			return m_border;
 		}
 };
 
+//class Playfield;
 
 class Tetrimino
 {
 	private:
 
-		wstring						image_filename {};
-		vector< Block >				m_blocks;
+		//wstring					image_filename {};
+		vector< Block >				blocks;
 		XMFLOAT2					position {};
 		XMFLOAT2					position_initial {};
-		XMFLOAT2					center { };
-		vector< XMFLOAT2 >			block_positions;
-		double						m_drop_velocity {};
+		XMFLOAT2					center {};
+		vector< XMFLOAT2 >			block_offsets; // &
+		double						drop_velocity {};
 		//Grid_size					grid_size {};
 		enum class					state { moving , falling , sliding , in_place , rotating }; 
 		state						current_state { state::falling };
-		std::map< wstring , XMINT2 >		translate;
+		map< wstring , XMINT2 >		translate;
+		rectangle						m_border {};
+		rectangle						playfield {};
 		//Playfield * m_playfield = nullptr; // shared_pointer<>
-		RECT						m_playfield {};
-			
-		std::map < direction , XMFLOAT2 > directions;
-		//map< string , XMFLOAT2 >		move_direction;
 
-	public:
+		map< direction , XMFLOAT2 > directions;
 
-		
+	public:		
 		
 		Tetrimino() {}
 		Tetrimino( const vector< XMFLOAT2 >	in_block_positions_relative ,/*&*/
-				   const wstring				in_image_filename ,
-				   const double				in_drop_velocity ,
-				   const RECT				in_playfield )
+				   const wstring			in_texture_diffuse ,
+				   rectangle						in_playfield )
+				   //const Playfield * const in_playfield )
 
-			:	block_positions( in_block_positions_relative ) ,
-				image_filename( in_image_filename ) ,
-				m_drop_velocity( in_drop_velocity ) ,
-				m_playfield( in_playfield )
+			: block_offsets( in_block_positions_relative ) ,
+			  playfield( in_playfield )
 		{			
 			directions.insert( make_pair( direction::left ,  XMFLOAT2( -1.0f ,  0.0f ) ) );
 			directions.insert( make_pair( direction::right , XMFLOAT2(  1.0f ,  0.0f ) ) );
 			directions.insert( make_pair( direction::down ,  XMFLOAT2(  0.0f , -1.0f ) ) );
 
-			add_blocks();			
+			add_blocks( in_texture_diffuse );
 		}
 
-		void add_blocks()
+		void add_blocks( wstring in_texture_diffuse )
 		{
-			for( auto & block : block_positions )
+			for( auto & offset : block_offsets )
 			{
-				Block new_block( image_filename.data() );
+				Block new_block( in_texture_diffuse );
+				
+				position_initial.x = -0.5 * new_block.width(); // screen center - 1/2 block width
+				position_initial.y = playfield.top - ( 0.5f * new_block.height() ); // 
 
-				float width  = new_block.width();
-				float height = new_block.height();
+				float x = position_initial.x + ( offset.x * new_block.width() );
+				float y = position_initial.y + ( offset.y * new_block.height() );
 
-				position_initial.x = -0.5 * width; // screen center - 1/2 block width
-				position_initial.y = m_playfield.top - ( 0.5f * height ); // 
-
-				float x = position_initial.x + ( block.x * width );
-				float y = position_initial.y + ( block.y * height );
-				float z = block_layer;
+				//float x = offset.x * new_block.width();
+				//float y = offset.y * new_block.height();
 
 				new_block.position( x , y );
 				
-				m_blocks.push_back( std::move(new_block) ); // block has no copy constructor? // rvalue move constructor
+				blocks.emplace_back( std::move( new_block ) ); // block has no copy constructor // rvalue move constructor
 			}
 		}
 
 		void update()
 		{
-			for( auto & block : m_blocks ) { block.update(); }
+			for( auto & block : blocks ) { block.update(); }
 		}
 
 		void render()
 		{
-			for( auto & block : m_blocks ) { block.render(); }
+			for( auto & block : blocks ) { block.render(); }
 		}
 
 		void move( const direction in_direction )
 		{
 			if( within_playfield( in_direction ) ) //&& ! block_obstructing )
 			{
-				for( auto & block : m_blocks )
+				for( auto & block : blocks )
 				{
 					float current_x = block.position().x;
 					float current_y = block.position().y;
@@ -189,63 +200,62 @@ class Tetrimino
 		}
 
 		//bool can_move( const string in_direction ) { }
+		//bool can_fit
 
 		bool within_playfield( const direction in_direction )
 		{
-			vector<Block>::const_iterator citr_block = m_blocks.cbegin();
+			XMFLOAT2 test_move {};
+			test_move.x = directions.at( in_direction ).x * blocks.front().width();
+			test_move.y = directions.at( in_direction ).y * blocks.front().height();
 
-			XMFLOAT2 test_move;
-			test_move.x = directions.at( in_direction ).x * citr_block->width();
-			test_move.y = directions.at( in_direction ).y * citr_block->height();
+			m_border = border();
 
-			for( const auto & block : m_blocks )
+			if ( ( m_border.left   + test_move.x ) < playfield.left  ||
+				 ( m_border.right  + test_move.x ) > playfield.right ||
+				 ( m_border.bottom + test_move.y ) < playfield.bottom )
 			{
-				if( ( block.position().x + test_move.x ) < m_playfield.left ||
-					( block.position().x + test_move.x ) > m_playfield.right ||
-					// if -25 < -250
-					( block.position().y + test_move.y ) < m_playfield.bottom )
-				{
-					return false; // block would be outside grid bounds
-				}
+				return false; // block would be outside playfield bounds
 			}
 			return true;
 		}
 
-		//bool block_obstructing(const playfield_blocks * in_blocks, const string in_direction)		{		}
+		//bool block_obstructing(const playfield_blocks * in_blocks, const string in_direction){}
 
-		RECT border()
+		rectangle border()
 		{
 			//if( ! m_blocks.empty() )
-			RECT border = m_blocks.front().border();
 
-			for( auto & block : m_blocks )
+			rectangle tetri_border = blocks.front().border();
+
+			for( auto & block : blocks )
 			{
-				if( block.border().left < border.left )
-					border.left = block.border().left;
+				if( block.border().left < tetri_border.left )
+					tetri_border.left = block.border().left;
 
-				if( block.border().right > border.right )
-					border.right = block.border().right;
+				if( block.border().right > tetri_border.right )
+					tetri_border.right = block.border().right;
 
-				if( block.border().top < border.top )
-					border.top = block.border().top;
+				if( block.border().top > tetri_border.top )
+					tetri_border.top = block.border().top;
 
-				if( block.border().bottom > border.bottom )
-					border.bottom = block.border().bottom;
+				if( block.border().bottom < tetri_border.bottom )
+					tetri_border.bottom = block.border().bottom;
 			}
 
-			return border;
+			debug_out( "\ntetri_border.bottom =  %f" , tetri_border.bottom);
+
+			return tetri_border;
 		}
 
 		void rotate( const direction in_direction )
 		{
-			RECT temp_border = border();
+			rectangle temp_border = border();
 			XMFLOAT2 centre { };
 
 			centre.x = 0.5 * ( temp_border.right - temp_border.left );
 			centre.y = 0.5 * ( temp_border.bottom - temp_border.top );
 
 			// block.pos - centre.pos
-
 		}
 
 		//bool can_rotate( const rotation in_rotation ) {}
@@ -263,22 +273,23 @@ class Playfield
 			m_background->position( XMFLOAT3( 0.0f , 0.0f , 10.0f ) ); // enum class layer { background, 
 
 			// centered at 0,0
-			m_boarders.left		= static_cast<LONG>( m_background->width() * -0.5 );
-			m_boarders.right	= m_background->width() / 2;
-			m_boarders.top		= m_background->height() / 2;
-			m_boarders.bottom	= static_cast<LONG>( m_background->height() * -0.5 );
+			m_boarder.left		= -0.5 * static_cast< LONG >( m_background->width() );
+			m_boarder.right		=  0.5 * m_background->width();
+			m_boarder.top		=  0.5 * m_background->height();
+			m_boarder.bottom	= -0.5 * static_cast< LONG >( m_background->height() );
 		}
 
-		const RECT boarders( void ) const { return m_boarders; }
+		const rectangle boarder( void ) const { return m_boarder; }
 
 		void update() { m_background->update(); }
 		void render() { m_background->render(); }
 
 	private:
 
-		RECT m_boarders {};
-		unique_ptr< Quad > m_background;
+		rectangle m_boarder {};
+		//cell_size;
 
+		unique_ptr< Quad > m_background;
 };
 
 
@@ -287,12 +298,12 @@ class Tetris : public DX11
 {
 	private:
 
-		unique_ptr< Camera >	m_camera;
-		unique_ptr< Playfield >	m_playfield;
+		unique_ptr< Camera >	camera;
+		unique_ptr< Playfield >	playfield;
 
-		double					m_drop_velocity { -1.0 }; // pixels/time
+		double					drop_velocity { -1.0 }; // pixels/time
 
-		unique_ptr<Tetrimino>	tetrimino_J;
+		unique_ptr< Tetrimino >	tetrimino_J;
 
 		vector< Tetrimino >::iterator active_tetrimino;
 	
@@ -300,26 +311,27 @@ class Tetris : public DX11
 
 		Tetris( HINSTANCE h_instance , UINT window_width , UINT window_height ) : DX11( h_instance , window_width , window_height )
 		{
-			m_camera = make_unique< Camera >( L"cam1" );
-			m_camera->projection( Projection::orthographic );
+			camera = make_unique< Camera >( L"cam1" );
+			camera->projection( Projection::orthographic );
 						
-			m_playfield = make_unique< Playfield >( L"graphics/grid.bmp" );
+			playfield = make_unique< Playfield >( L"graphics/grid.bmp" );
 
-			vector< XMFLOAT2 > positions_J { XMFLOAT2( -1,  0 ) , XMFLOAT2( -1, -1 ) , XMFLOAT2( 0, -1 ) , XMFLOAT2( 1, -1 ) };
+			vector< XMFLOAT2 > block_offsets_J { XMFLOAT2( -1,  0 ) , XMFLOAT2( -1, -1 ) , XMFLOAT2( 0, -1 ) , XMFLOAT2( 1, -1 ) };
 			
-			tetrimino_J = make_unique<Tetrimino>( positions_J , L"graphics/blue.png" , m_drop_velocity , m_playfield->boarders() );
-			// make_shared<>()
-			// drop_velocity m/s
-			// rotation_velocity
-			// move_velocity
+			tetrimino_J = make_unique<Tetrimino>( block_offsets_J , L"graphics/blue.png", playfield->boarder() );
 
-			//active_tetrimino = 
+			// vector< Tetrimino > tetriminos_static
+			// drop_velocity m/s
+			// velocity_rotation
+			// velocity_fall
+			// velocity_drop
 		}
 
 		void update( const double time_delta )
 		{
 			// auto key_state = keyboard->GetState();
 			auto kb = m_keyboard->GetState();
+
 			if( kb.Escape )
 				PostQuitMessage( 0 );
 
@@ -345,7 +357,7 @@ class Tetris : public DX11
 			//if( kb.PageUp || kb.Space )
 			//if( kb.PageDown || kb.X )
 			
-			m_playfield->update();
+			playfield->update();
 
 			tetrimino_J->update();
 		}
@@ -354,9 +366,9 @@ class Tetris : public DX11
 		{
 			clear();
 			
-			m_camera->render();
+			camera->render();
 
-			m_playfield->render();
+			playfield->render();
 			tetrimino_J->render();
 						
 			present();
