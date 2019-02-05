@@ -1,9 +1,9 @@
 #include <map>
 
-#include "..\DX11\DX11_base.h"
-#include "..\DX11\Camera.h"
-#include "..\DX11\Quad.h"
-#include "..\DX11\linked_list.h"
+#include "DX11.h"
+#include "Camera.h"
+#include "Quad.h"
+//#include "..\DX11\linked_list.h"
 
 // sounds.add_sound( "rotate", "sounds/rotate.wav" );
 
