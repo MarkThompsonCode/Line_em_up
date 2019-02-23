@@ -34,73 +34,6 @@ class Graphic_layers
 
 Graphic_layers graphic_layers;
 
-//class Block // public Quad
-//{
-//	private:
-//
-//		Quad		quad; // map_diffuse
-//		rectangle	border { };
-//
-//	public:
-//		
-//		Block() {}
-//
-//		// default constructor
-//		void load_diffuse( const wstring in_image_filename)//, XMFLOAT3 in_position )
-//		{
-//			//textures.by_name("block_blue")->width();
-//		}
-//
-//		// copy constructor
-//		//Block( const Block & ) = delete; // unique_pointer cannot be copied
-//
-//		// copy assignment constructor
-//		//Block & operator = ( const Block & ) = delete; // unique_pointer cannot be copied
-//
-//		// move assignment operator
-//		//Block & operator = ( Block && in_block )
-//		//{
-//		//	if( this != & in_block ) // copy self gaurd?
-//		//	{
-//		//		quad = move( in_block.quad );
-//
-//		//		_width	= in_block._width;
-//		//		_height = in_block._height;
-//		//		_border = in_block._border;
-//		//	}
-//
-//		//	return * this;
-//		//}
-//
-//		// move constructor
-//		//Block( Block && in_block )
-//		//{
-//		//	quad = std::move( in_block.quad );
-//
-//		//	_width = in_block._width;
-//		//	_height = in_block._height;
-//		//	_border = in_block._border;
-//		//}
-//
-//		//const float width() const { return _width; }
-//		//const float height() const { return _height; }
-//
-//		void position( const float in_x , const float in_y ) 
-//		{ 
-//			quad.position( XMFLOAT3( in_x , in_y , 0 ));// layers.block ) );
-//
-//			border();
-//		}
-//
-//		const XMFLOAT3 position() const { return quad->position(); }
-//
-//		void update() { quad->update(); }
-//		void render() { quad->render(); }
-//
-//		//const float left_side() const { return ( m_quad->position().x - ( m_width + 0.5f ) ); }
-//};
-
-//class Playfield;
 class Tetrimino_state
 {
 	public:
@@ -108,48 +41,19 @@ class Tetrimino_state
 		virtual void update() {};
 };
 
-//class Playfield
-//{
-//	public:
-//
-//		Playfield() {}
-//
-//		void load_diffuse( const wstring image )
-//		{
-//			background.load_diffuse( image.data() );
-//			background.set_position( XMFLOAT3( 0.0f , 0.0f , 10.0f ) ); // enum class layer { background, 
-//																		// centered at 0,0
-//			_border.left = -0.5 * static_cast< LONG >( background.width() );
-//			_border.right = 0.5 * background.width();
-//			_border.top = 0.5 * background.height();
-//			_border.bottom = -0.5 * static_cast< LONG >( background.height() );
-//		}
-//
-//		const rectangle border( void ) const { return _boarder; }
-//
-//		void update()  { background.update(); }
-//		void render()  { background.render(); }
-//
-//	private:
-//
-//		rectangle border {};
-//		//cell_size;
-//		Quad background;
-//};
-
 class Tetrimino
 {
 	private:
 
 		vector< Quad >				blocks;
-		XMFLOAT2					position {};
-		XMFLOAT2					position_initial {};
-		XMFLOAT2					center {};
+		XMFLOAT3					position {};  //3
+		XMFLOAT3					position_initial {}; // 3
+		XMFLOAT3					centre {};
 		vector< XMFLOAT2 >			block_offsets;
 		double						drop_velocity {};
 		//Grid_size					grid_size {};
 		enum class					state { moving , falling , sliding , locked , rotating }; 
-		state						current_state { state::falling };
+		state						state_current{ state::falling };
 		map< wstring , XMINT2 >		translate;
 		rectangle					border {};
 		rectangle					playfield {};
@@ -179,26 +83,48 @@ class Tetrimino
 
 		void add_blocks( wstring texture_diffuse )
 		{
+
 			for( auto & offset : block_offsets )
 			{
 				Quad new_block( texture_diffuse );
-				
-				position_initial.x = -0.5 * new_block.get_width(); // 0 (screen center) - 1/2 block width
+
+				// 0 (screen center) - 1/2 block width
+				position_initial.x = -0.5 * new_block.get_width(); 
 				position_initial.y = playfield.top - ( 0.5f * new_block.get_height() );
 
+				// each block + offset
 				float x = position_initial.x + ( offset.x * new_block.get_width() );
 				float y = position_initial.y + ( offset.y * new_block.get_height() );
 
 				//float x = offset.x * new_block.get_width();
 				//float y = offset.y * new_block.get_height();
 
-				new_block.set_position( XMFLOAT3( x , y , -1.0f ) );// graphic_layers.block ) );
-				
+				new_block.set_position( XMFLOAT3( x, y, graphic_layers.block) );
+
 				blocks.push_back( new_block );
+
+				update_centre();
+
+				//XMVECTOR position = XMVectorSet( x , y , graphic_layers.block, 0.0f );				
 			}
 		}
 
-		void update()
+		void update_centre()
+		{
+			centre.x = 0.0f;
+			centre.y = 0.0f;
+
+			for( auto & block : blocks )
+			{
+				centre.x += block.get_position().x;
+				centre.y += block.get_position().y;
+			}
+
+			centre.x /= 4.0f;
+			centre.y /= 4.0f;
+		}
+
+		void update() // const long double
 		{
 			// if ( position => m_playfield->boarder().bottom ) m_current_state = state::locked    // && slide_time_elapsed <= 0.0f;
 
@@ -222,11 +148,18 @@ class Tetrimino
 					float current_x = block.get_position().x;
 					float current_y = block.get_position().y;
 
-					float move_x = directions.at( in_direction ).x * block.get_width();
-					float move_y = directions.at( in_direction ).y * block.get_height(); // * delta_time * fall_rate
+					float translate_x = directions.at( in_direction ).x * block.get_width();
+					float translate_y = directions.at( in_direction ).y * block.get_height(); // * delta_time * fall_rate
 
-					block.set_position( XMFLOAT3( current_x + move_x , current_y + move_y , -1.0f ) );// graphic_layers.block ) );
+					XMFLOAT3 translate = XMFLOAT3( current_x + translate_x , current_y + translate_y , graphic_layers.block );
+
+					block.set_position( translate );
+
+					centre.x += translate.x;
+					centre.y += translate.y;
 				}
+
+				update_centre();
 			}
 		}
 
@@ -255,6 +188,9 @@ class Tetrimino
 
 		rectangle get_border()
 		{
+			// for each vertex in apply SRT matrix multiplication
+			// find min and max vertices
+
 			rectangle tetri_border = blocks.front().get_border();
 
 			for( auto & block : blocks )
@@ -277,30 +213,26 @@ class Tetrimino
 			return tetri_border;
 		}
 
+		//bool can_rotate( const rotation in_rotation ) {}
+
 		void rotate( const rotation in_rotation )
 		{
 			//if( can_rotate )
-			
+						
 			rectangle border = get_border();
-			XMFLOAT3 centre { };
 
-			centre.x = 0.5 * ( border.right - border.left );
-			centre.y = 0.5 * ( border.bottom - border.top );
-			centre.z = -1.0f;// graphic_layers.block;
-
-			// block.pos - centre.pos
+			centre.x = border.left + abs( ( border.right - border.left ) / 2.0 );
+			centre.y = border.top + abs( ( border.bottom - border.top ) / 2.0 );
+			centre.z = graphic_layers.block;
 
 			for( auto & block : blocks )
 			{
-				//block.rotate_point_z( centre , rotations.at( in_rotation ) );
+				block.rotate_increment_z( 0.02f );// rotations.at( in_rotation ) );
+				block.rotate_point_increment_z( centre , 0.02f );// rotations.at( in_rotation ) );
 			}
 		}
-
-		//bool can_rotate( const rotation in_rotation ) {}
 };
 
-
-// Game name: Line'em up
 class Line_em_up : public DX11
 {
 	private:
@@ -308,10 +240,9 @@ class Line_em_up : public DX11
 		//InputHandler input_handler;
 
 		Camera					camera;
-		Quad playfield;
-		//Playfield				playfield;
+		Quad					playfield;
 
-		double					drop_velocity { -1.0 }; // pixels/time
+		double					drop_velocity { -1.0 }; // playfield square per second
 
 		vector< Tetrimino >		tetrimino_types;
 
@@ -333,18 +264,18 @@ class Line_em_up : public DX11
 			camera.set_position( XMVectorSet( 0.0f , 0.0f , -100.0f , 0.0f ) );
 						
 			playfield.load_diffuse( L"graphics/grid.bmp" );
-			playfield.set_position( XMFLOAT3( 0.0f , 0.0f , 0.0f ) );// graphic_layers.playfield ) );
+			playfield.set_position( XMFLOAT3( 0.0f , 0.0f , graphic_layers.playfield ) );
 			
 			tetrimino_J.create( block_offsets_J , L"graphics/blue.png", playfield.get_border() );
 
 			// vector< Tetrimino > tetriminos_static
-			// drop_velocity m/s
+			// drop_velocity = pixel / sec
 			// velocity_rotation
 			// velocity_fall
-			// velocity_drop
+			// velocity_hard_drop
 		}
 
-		void update( const double time_delta )
+		void update( const long double time_delta )
 		{
 			Keyboard::State kb = keyboard->GetState();
 
@@ -354,14 +285,19 @@ class Line_em_up : public DX11
 					PostQuitMessage( 0 );
 
 				//auto mouse = m_mouse->GetState();
+				if( kb.Space )
+				{
+					reset();
+				}
 
 				if( kb.Z )
 				{
 					tetrimino_J.rotate( rotation::counter_clock_wise );
+
+					// rotation speed
 				}
 
-				if( kb.Down || kb.S )
-					tetrimino_J.move( direction::down );
+				if( kb.Down || kb.S ) tetrimino_J.move( direction::down );
 
 				if( kb.Left || kb.A )
 					tetrimino_J.move( direction::left );
