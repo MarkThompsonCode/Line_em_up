@@ -1,4 +1,4 @@
-//#define _USE_MATH_DEFINES
+ï»¿//#define _USE_MATH_DEFINES
 
 #include <map>
 #include <list>
@@ -43,10 +43,17 @@ Graphic_layers graphic_layers;
 
 typedef struct Tetri_centre
 {
+	Tetri_centre( uint in_block, XMFLOAT3 in_offsets ) 
+		: block(in_block), offset_x(in_offsets.x), offset_y( in_offsets.y ) , offset_z( in_offsets.z )
+	{}
+
+	Tetri_centre() {};
+
 	uint block		= 0u;
 	float offset_x	= 0.0f;;
 	float offset_y	= 0.0f;;
 	float offset_z	= 0.0f;
+
 } Tetri_centre;
 
 //class Tetrimino_state
@@ -103,9 +110,11 @@ class Tetrimino : public Game_actor
 		Tetrimino() {}
 
 		void create( const vector< XMFLOAT2 >	block_positions_relative ,
+					 Tetri_centre				in_centre,
 					 const wstring				texture_diffuse ,
 					 rectangle					in_playfield )  // const * playfield
 		{			
+			centre = in_centre;
 			block_offsets	= block_positions_relative;
 			playfield		= in_playfield;
 
@@ -117,6 +126,8 @@ class Tetrimino : public Game_actor
 			rotations.insert( make_pair( Rotation::counter_clock_wise , -1.570796326794f ) );// M_PI_2 ) );
 
 			add_blocks( texture_diffuse );
+
+			//set_position();
 		}
 
 		void add_blocks( wstring texture_diffuse )
@@ -129,29 +140,63 @@ class Tetrimino : public Game_actor
 				// 0 (screen center) - 1/2 block width
 				position_initial.x = 0.0f;// -0.5 * new_block.get_width();
 				position_initial.y = 0.0f;//playfield.top - ( 0.5f * new_block.get_height() );
-				
-				//float ½width  = new_block.get_width()  / 2.0f;
-				//float ½height = new_block.get_height() / 2.0f;				
 
 				// each block + offset
-				float x = position_initial.x + ( offset.x * new_block.get_width() );// -½width );
-				float y = position_initial.y + ( offset.y * new_block.get_height() );// -½height );
-
-				//float x = offset.x * new_block.get_width();
-				//float y = offset.y * new_block.get_height();
-
-				//debug_out( "\nposition.x = %.2f , y = %.2f" , x , y );
+				float x = position_initial.x + ( offset.x * new_block.get_width() );// -Â½width );
+				float y = position_initial.y + ( offset.y * new_block.get_height() );// -Â½height );
 
 				new_block.set_position( XMFLOAT3( x, y, graphic_layers.block) );
 
 				blocks.push_back( new_block );
-
-				//XMVECTOR position = XMVectorSet( x , y , graphic_layers.block, 0.0f );				
 			}
 		}
 
 		XMFLOAT3 get_centre()
 		{
+
+			const Quad & block = blocks.at( centre.block );
+
+			vector<vertex_rgba_uv> world_vertices = block.get_world_vertices();
+
+			XMFLOAT3 centre;
+
+			centre.x = ( world_vertices.at( 0 ).point.x - world_vertices.at( 1 ).point.x ) / 2.0f;
+			centre.y = ( world_vertices.at( 0 ).point.y - world_vertices.at( 1 ).point.y ) / 2.0f;
+			centre.z = graphic_layers.block;
+
+			//// centre = block_n + ( vector_offset * block_n.z_rotation )
+			//XMFLOAT3 centre_orthaganol;		
+			//const Quad & block = blocks.at( centre.block );
+
+			//centre_orthaganol.x = block.get_position().x + ( centre.offset_x * block.get_width() );
+			//centre_orthaganol.y = block.get_position().y + ( centre.offset_y * block.get_height() );
+			//centre_orthaganol.z = graphic_layers.block;
+
+			////x = cx + r * cos( a )
+			////y = cy + r * sin( a )
+
+			//XMFLOAT3 centre_rotated;
+
+			//// | theta | = arccos( Trace( rotation_matrix ) - 1 / 2 )  // ?
+			//
+			////float Î¸z = atan2( r21 , r11 );
+
+			//XMMATRIX world_matrix = block.get_world_matrix();
+
+			//XMVECTOR row0 = world_matrix.r[ 0 ];
+			//XMVECTOR row1 = world_matrix.r[ 1 ];
+
+			//float r11 = XMVectorGetX( row0 );
+			//float r21 = XMVectorGetX( row1 );
+
+			//centre_rotated
+
+
+			return centre;
+
+			//XMVECTOR centre = DirectX::XMVectorMultiply( centre , block.get_size() );
+			//offset = DirectX::XMVectorAdd( block.get_position() , );
+
 			//Bounding_box box = get_bounding_oriented_box();
 
 			//float x = ( box.min.x + box.max.x ) / 2.0f;
@@ -159,15 +204,6 @@ class Tetrimino : public Game_actor
 			//float z = ( box.min.z + box.max.z ) / 2.0f;
 
 			//return XMFLOAT3( x , y , z );
-
-			XMFLOAT3 offset;
-			const auto block = blocks.at( centre.block );
-
-			offset.x = block.get_position().x + ( centre.offset_x * block.get_width() );
-			offset.y = block.get_position().y + ( centre.offset_y * block.get_height() );
-			offset.z = block.get_position().z + ( centre.offset_z * block.get_height() );
-
-
 		}
 
 
@@ -295,7 +331,7 @@ class Tetrimino : public Game_actor
 			{
 				//debug_out( "\nposition.x = %.2f , y = %.2f" , position.x , position.y );
 				
-				//block.rotate_point_z( centre , 0.08f );// rotations.at( in_rotation ) );
+				block.rotate_point_z( centre , 0.2f );// rotations.at( in_rotation ) );
 
 			}
 		}
@@ -305,7 +341,7 @@ class Tetrimino : public Game_actor
 			vector< Quad >				blocks;
 			//XMFLOAT3					position{};
 			//XMFLOAT3					position_initial{};
-			//Tetri_centre				centre{};
+			Tetri_centre				centre;
 			vector< XMFLOAT2 >			block_offsets;
 			double						drop_velocity{};
 			//Grid_size					grid_size {};
@@ -383,7 +419,13 @@ class Line_em_up : public DX11
 			//top, left, right, bottom
 			rectangle playfield_boarder( 250 , -125 , 125 , -250 );
 
-			tetrimino_J.create( block_offsets_J , L"graphics/blue.png" , playfield_boarder );//playfield.get_border() );
+			Tetri_centre centre;//( 2, XMFLOAT3(-0.5f, 0,0) );
+			centre.block = 2;
+			centre.offset_x = -0.5;
+			centre.offset_y = 0;
+			centre.offset_z = graphic_layers.block;
+
+			tetrimino_J.create( block_offsets_J , centre, L"graphics/blue.png" , playfield_boarder );//playfield.get_border() );
 		}
 
 		//Input_handler::update
