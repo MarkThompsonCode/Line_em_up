@@ -13,10 +13,161 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="DX11">
+      <UniqueIdentifier>{6d556660-7834-42db-bbc6-5a6794363500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX11\Header files">
+      <UniqueIdentifier>{e1d2f11d-8b96-4a6a-b90d-c24b52080fe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX11\Source files">
+      <UniqueIdentifier>{43552d78-bf92-4799-b3db-575d27ceba01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DX11\HLSL">
+      <UniqueIdentifier>{d61fbfdf-591d-4161-8d4f-2de69d005b86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\DX11\Source files\Image.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\Input.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\Mesh.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\MS_Keyboard.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\Sphere.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\Texture.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\WICImage.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\Bitmap.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\Camera.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\debugging.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\Drawable.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\DX11.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\File.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\Graphics_manager.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\icosahedron.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DX11\Source files\DX11_math.cpp">
+      <Filter>DX11\Source files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\DX11\Header files\WICImage.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Camera.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Command.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Cube.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\debugging.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Drawable.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\DX11.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\File.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\font.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Graphics_manager.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\icosahedron.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Includes.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Input.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\input_layouts.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Input_manager.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Keyboard.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Mesh.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\MS_Keyboard.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Quad.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Sphere.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\sprite.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Texture.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Timer.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Triangle.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\types.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\Vertex.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\DX11_math.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\DX11\Shaders\PS_colour.hlsl">
+      <Filter>DX11\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\DX11\Shaders\VS_colour.hlsl">
+      <Filter>DX11\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
