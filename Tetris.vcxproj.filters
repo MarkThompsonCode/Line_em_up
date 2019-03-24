@@ -81,6 +81,15 @@
     <ClCompile Include="..\DX11\Source files\DX11_math.cpp">
       <Filter>DX11\Source files</Filter>
     </ClCompile>
+    <ClCompile Include="Line_em_up.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tetrimino.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\DX11\Header files\WICImage.h">
@@ -167,10 +176,22 @@
     <ClInclude Include="..\..\..\Sources\SDK\DirectXMath-master\Inc\DirectXCollision.h">
       <Filter>Reference code</Filter>
     </ClInclude>
-    <ClInclude Include="..\DX11\Header files\State.h">
-      <Filter>DX11\Header files</Filter>
-    </ClInclude>
     <ClInclude Include="Line_em_up.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tetrimino.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Input_handler.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
