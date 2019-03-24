@@ -25,6 +25,9 @@
     <Filter Include="DX11\HLSL">
       <UniqueIdentifier>{d61fbfdf-591d-4161-8d4f-2de69d005b86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Reference code">
+      <UniqueIdentifier>{6407b6e6-51eb-4652-b540-5a779fcd1b14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main3.cpp">
@@ -161,6 +164,15 @@
     <ClInclude Include="..\DX11\Header files\DX11_math.h">
       <Filter>DX11\Header files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Sources\SDK\DirectXMath-master\Inc\DirectXCollision.h">
+      <Filter>Reference code</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DX11\Header files\State.h">
+      <Filter>DX11\Header files</Filter>
+    </ClInclude>
+    <ClInclude Include="Line_em_up.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\DX11\Shaders\PS_colour.hlsl">
@@ -169,5 +181,10 @@
     <FxCompile Include="..\DX11\Shaders\VS_colour.hlsl">
       <Filter>DX11\HLSL</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Sources\SDK\DirectXMath-master\Inc\DirectXCollision.inl">
+      <Filter>Reference code</Filter>
+    </None>
   </ItemGroup>
 </Project>

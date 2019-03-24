@@ -167,6 +167,12 @@
     <ClCompile Include="main3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Sources\SDK\DirectXMath-master\Inc\DirectXCollision.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\DX11\Header files\Camera.h" />
     <ClInclude Include="..\DX11\Header files\Command.h" />
     <ClInclude Include="..\DX11\Header files\Cube.h" />
@@ -223,12 +229,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="..\DX11\Header files\State.h" />
     <ClInclude Include="..\DX11\Header files\Texture.h" />
     <ClInclude Include="..\DX11\Header files\Timer.h" />
     <ClInclude Include="..\DX11\Header files\Triangle.h" />
     <ClInclude Include="..\DX11\Header files\types.h" />
     <ClInclude Include="..\DX11\Header files\Vertex.h" />
     <ClInclude Include="..\DX11\Header files\WICImage.h" />
+    <ClInclude Include="Line_em_up.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\DX11\Shaders\PS_colour.hlsl">
@@ -267,6 +275,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Sources\SDK\DirectXMath-master\Inc\DirectXCollision.inl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
