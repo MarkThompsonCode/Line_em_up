@@ -3,9 +3,9 @@
 using std::make_pair;
 
 void Tetrimino::create( const vector< XMFLOAT2 >	block_positions_relative ,
-			 Tetri_centre				in_centre ,
-			 const wstring				texture_diffuse ,
-			 const Playfield & playfield )  // const * playfield
+						Tetri_centre				in_centre ,
+						const wstring				texture_diffuse ,
+						Quad * const in_playfield ) 
 {
 	centre = in_centre;
 	block_offsets = block_positions_relative;
@@ -40,7 +40,7 @@ void Tetrimino::add_blocks( wstring texture_diffuse )
 		float x = position_initial.x + ( offset.x * new_block.get_width() );// -½width );
 		float y = position_initial.y + ( offset.y * new_block.get_height() );// -½height );
 
-		new_block.set_position( XMFLOAT3( x , y , layer_block ) );
+		new_block.set_position( XMFLOAT3( x , y , ::layer_block ) );
 
 		blocks.push_back( new_block );
 	}
@@ -50,15 +50,15 @@ XMFLOAT3 Tetrimino::get_centre()
 {
 	// centre = ( vertex0 + vertex1 ) / 2
 
-	const Quad & block = blocks.at( centre.block );
+	const Quad & block = blocks.at( centre.get_block() );
 
 	vector<vertex_rgba_uv> world_vertices = block.get_world_vertices();
 
 	XMFLOAT3 point;
 
-	point.x = ( world_vertices.at( centre.vertex0 ).point.x + world_vertices.at( centre.vertex1 ).point.x ) / 2.0f;
-	point.y = ( world_vertices.at( centre.vertex0 ).point.y + world_vertices.at( centre.vertex1 ).point.y ) / 2.0f;
-	point.z = layer_block;
+	point.x = ( world_vertices.at( centre.get_vertex0() ).point.x + world_vertices.at( centre.get_vertex1() ).point.x ) / 2.0f;
+	point.y = ( world_vertices.at( centre.get_vertex0() ).point.y + world_vertices.at( centre.get_vertex1() ).point.y ) / 2.0f;
+	point.z = ::layer_block;
 
 	return point;
 
@@ -110,10 +110,11 @@ void Tetrimino::move( const Direction in_direction )
 bool Tetrimino::within_playfield( const Direction in_direction )
 {
 	XMFLOAT2 test_move( 0 , 0 );
-	rectangle border; // playfield->get_boarder();
 
 	test_move.x = directions.at( in_direction ).x;// * blocks.front().get_width();
 	test_move.y = directions.at( in_direction ).y;// * blocks.front().get_height();
+	
+	Bounding_box playfield_aabb = playfield->get_bounding_box();
 
 	for( const auto & block : blocks )
 	{
@@ -121,9 +122,9 @@ bool Tetrimino::within_playfield( const Direction in_direction )
 
 		for( const auto & vertex : verticies )
 		{
-			if( ( vertex.point.x + test_move.x ) < playfield.left ||
-				( vertex.point.x + test_move.x ) > playfield.right ||
-				( vertex.point.y + test_move.y ) < playfield.bottom )
+			if( ( vertex.point.x + test_move.x ) > playfield_aabb.min.x ||
+				( vertex.point.x + test_move.x ) < playfield_aabb.max.x ||
+				( vertex.point.y + test_move.y ) < playfield_aabb.max.y )
 			{
 				return false; // block would be outside playfield bounds
 

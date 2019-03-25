@@ -13,22 +13,6 @@
 
 #include "State.h"
 
-//using std::vector;
-//using Direct::XMFLOAT2;
-
-typedef struct Tetri_centre
-{
-	Tetri_centre( uint in_block , uint in_vertex0 , uint in_vertex1 )
-		: block( in_block ) , vertex0( in_vertex0 ) , vertex1( in_vertex1 )
-	{}
-
-	Tetri_centre() {};
-
-	uint block = 0u;
-	uint vertex0 = 0u;
-	uint vertex1 = 1u;
-
-} Tetri_centre;
 
 class Tetrimino //: public State< Tetrimino > //: public Game_actor
 {
@@ -38,8 +22,8 @@ class Tetrimino //: public State< Tetrimino > //: public Game_actor
 
 		void create( const std::vector< DirectX::XMFLOAT2 >	block_positions_relative ,
 					 Tetri_centre				in_centre ,
-					 const std::wstring				texture_diffuse ,
-					 rectangle					in_playfield );  // const * playfield
+					 const std::wstring			texture_diffuse ,
+					 Quad * const in_playfield );
 	
 
 		void add_blocks( std::wstring texture_diffuse );
@@ -64,7 +48,8 @@ class Tetrimino //: public State< Tetrimino > //: public Game_actor
 
 	private:
 
-		std::vector< Quad >				blocks;
+		std::vector< Quad >			blocks;
+		Quad * playfield = nullptr;
 		//XMFLOAT3					position{};
 		//XMFLOAT3					position_initial{};
 		Tetri_centre				centre;
@@ -75,9 +60,8 @@ class Tetrimino //: public State< Tetrimino > //: public Game_actor
 
 		State * state;
 
-		std::map < wstring , DirectX::XMINT2 > translate;
+		//std::map < wstring , DirectX::XMINT2 > translate;
 		//rectangle					border{};
-		rectangle					playfield{};
 
 		std::map< Direction , XMFLOAT2 >	directions;
 		std::map< Rotation , float >		rotations;

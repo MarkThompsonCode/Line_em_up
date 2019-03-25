@@ -5,22 +5,17 @@ Line_em_up::Line_em_up( HINSTANCE h_instance , UINT window_width , UINT window_h
 : DX11( h_instance , window_width , window_height )
 {
 	camera.set_projection( Projection::orthographic );
-	camera.set_position( XMVectorSet( origin_x , origin_y , -100.0f , 0.0f ) );
+	camera.set_position( XMVectorSet( ::origin_x , ::origin_y , -100.0f , 0.0f ) );
 
 	playfield.load_diffuse( L"graphics/grid.bmp" );
-	playfield.set_position( XMFLOAT3( origin_x , origin_y , layer_playfield ) );
+	playfield.set_position( XMFLOAT3( origin_x , origin_y , ::layer_playfield ) );
 
 	//top, left, right, bottom
-	rectangle playfield_boarder( 250 , -125 , 125 , -250 );
+	//rectangle playfield_boarder( 250 , -125 , 125 , -250 );
+	
+	Tetri_centre centre_J( 2, 0, 1);
 
-	Bounding_box playfield.get_bounding_box()
-
-	Tetri_centre centre;//( 2, XMFLOAT3(-0.5f, 0,0) );
-	centre.block = 2;
-	centre.vertex0 = 0;
-	centre.vertex1 = 1;
-
-	tetrimino_J.create( block_offsets_J , centre , L"graphics/blue.png" , playfield_boarder );//playfield.get_border() );
+	tetrimino_J.create( block_offsets_J , centre_J , L"graphics/blue.png" , & playfield );
 
 	timer.start();
 	timer.tick();

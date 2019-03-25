@@ -33,7 +33,7 @@ class Line_em_up : public DX11
 
 		//vector< Tetrimino >::const_iterator active_tetri;  // using vec<>::itr active_tetri // active_tetri = blocks.front();
 		vector< XMFLOAT2 >		block_offsets_J { XMFLOAT2( -0.5f , -1.0f ) , XMFLOAT2( 0.5f , -1.0f ) , XMFLOAT2( 0.5f , 0.0f ) , XMFLOAT2( 0.5f , 1.0f ) };
-		vector< XMFLOAT2 >		block_offsets_T  { XMFLOAT2( f , f ) , XMFLOAT2( f , f ) , XMFLOAT2( f , f ) , XMFLOAT2( f , f ) };
+		vector< XMFLOAT2 >		block_offsets_T { XMFLOAT2( -1.5f , 0.5f ) , XMFLOAT2( 0.0f , 0.5f ) , XMFLOAT2( 1.5f , 0.5f ) , XMFLOAT2( 0.0f , -0.5f ) };
 
 		Timer					timer;
 
