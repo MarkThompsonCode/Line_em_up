@@ -3,6 +3,8 @@
 // std
 #include <vector>  
 #include <map>
+#define _USE_MATH_DEFINES
+#include <math.h>
 // DirectX
 #include <DirectXMath.h>
 // DX11
@@ -24,27 +26,28 @@ class Tetrimino //: public State< Tetrimino > //: public Game_actor
 					 Tetri_centre				in_centre ,
 					 const std::wstring			texture_diffuse ,
 					 Quad * const in_playfield );
-	
-
-		void add_blocks( std::wstring texture_diffuse );
-
-		XMFLOAT3 get_centre();
 
 		void update( double time_delta );
 		void render();
 
+		void try_move( const Direction in_direction );
+		void try_rotate( Rotation in_rotation );
+
+	private:
+
+		Bounding_box get_bounding_box();
+		//vector<vertex_rgba_uv> verticies();
 		void move( const Direction in_direction );
-
-		//bool can_move( const string in_direction ) { }
-		//bool can_fit
-
-		bool within_playfield( const Direction in_direction );
-
-		//bool block_obstructing(const playfield_blocks * in_blocks, const string in_direction){}
-
-		bool can_rotate( const Rotation in_rotation );
-
 		void rotate( Rotation in_rotation );
+		void add_blocks( std::wstring texture_diffuse );
+		void set_position( const XMFLOAT3 in_position );
+		bool within_playfield( const Direction in_direction );
+		bool within_playfield( const Rotation in_rotation );
+		//bool within_playfield( const vector<vertex_rgba_uv> & in_verticies );
+		XMFLOAT3 get_centre();
+
+		//bool can_fit
+		//bool block_obstructing(const playfield_blocks * in_blocks, const string in_direction){}
 
 	private:
 

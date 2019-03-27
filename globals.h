@@ -3,7 +3,7 @@
 const float origin_x = 0.0f;
 const float origin_y = 0.0f;
 
-enum class Direction { left , right , down };
+enum class Direction { left , right , up , down };
 enum class Rotation { clock_wise , counter_clock_wise };
 
 const float layer_playfield = 0.0f;

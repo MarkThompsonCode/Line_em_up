@@ -16,7 +16,13 @@ class State //abstract
 class Falling : public State//< Tetrimino >
 {
 	public:
+
 		virtual State * update( Tetrimino & actor , double time_delta );
+
+	private:
+
+		double time = 0.0;
+		const double fall_delay = 1.0;
 };
 
 class Next : public State

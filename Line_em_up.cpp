@@ -13,7 +13,7 @@ Line_em_up::Line_em_up( HINSTANCE h_instance , UINT window_width , UINT window_h
 	//top, left, right, bottom
 	//rectangle playfield_boarder( 250 , -125 , 125 , -250 );
 	
-	Tetri_centre centre_J( 2, 0, 1);
+	Tetri_centre centre_J( 2, 0, 1 );
 
 	tetrimino_J.create( block_offsets_J , centre_J , L"graphics/blue.png" , & playfield );
 
@@ -41,7 +41,7 @@ void Line_em_up::update( const long double time_delta )
 	wstring title = L"Line'em'up";
 
 	title.append( L" - " );
-	title.append( std::to_wstring( time_delta ) );
+	title.append( std::to_wstring( timer.get_total() ) );
 
 	SetWindowTextW( get_window_handle() , title.data() );
 
@@ -62,19 +62,19 @@ void Line_em_up::update( const long double time_delta )
 
 	if( kb.Z )
 	{
-		tetrimino_J.rotate( Rotation::counter_clock_wise );	// rotation speed
+		tetrimino_J.try_rotate( Rotation::counter_clock_wise );	// rotation speed
 	}
 
 	if( kb.Down || kb.S )
-		tetrimino_J.move( Direction::down ); // fast_drop
+		tetrimino_J.try_move( Direction::down ); // fast_drop
 
 	if( kb.Left || kb.A )
-		tetrimino_J.move( Direction::left );
+		tetrimino_J.try_move( Direction::left );
 	// events.add( Direction::left );
 
 	if( kb.Right || kb.D )
 	{
-		tetrimino_J.move( Direction::right );
+		tetrimino_J.try_move( Direction::right );
 	}
 
 	//if( kb.PageUp || kb.Space )

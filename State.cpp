@@ -9,7 +9,13 @@ State * Next::update( Tetrimino & actor , double time_delta )
 
 State * Falling::update( Tetrimino & actor , double time_delta )
 {
-	actor.move( Direction::down );
+	time += time_delta;
+
+	if( time >= fall_delay )
+	{
+		//actor.try_move( Direction::down );
+		time = 0.0f;
+	}
 
 	//if( hit_bottom) 
 	// return Sliding
