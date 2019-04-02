@@ -9,20 +9,20 @@
 #include <DirectXMath.h>
 // DX11
 #include "types.h"
-#include "Quad.h"
+#include "quad.h"
+#include "game_actor.h"
 // Line_em_up
 #include "globals.h"
+//#include "DX11_math.h"
+#include "states.h"
 
-#include "State.h"
-
-
-class Tetrimino //: public State< Tetrimino > //: public Game_actor
+class Tetrimino : public Game_actor
 {
 	public:
 
-		Tetrimino() {}
+		Tetrimino() {} // ? = default
 
-		void create( const std::vector< DirectX::XMFLOAT2 >	block_positions_relative ,
+		void create( const vector< XMFLOAT2 >	block_positions_relative ,
 					 Tetri_centre				in_centre ,
 					 const std::wstring			texture_diffuse ,
 					 Quad * const in_playfield );
@@ -30,21 +30,27 @@ class Tetrimino //: public State< Tetrimino > //: public Game_actor
 		void update( double time_delta );
 		void render();
 
-		void try_move( const Direction in_direction );
-		void try_rotate( Rotation in_rotation );
+		// virtual void execute_command( Command in_command ) override;
+
+		virtual void try_move( Direction in_direction ) override;
+		virtual void try_rotate( Rotation in_rotation ) override;
 
 	private:
 
-		Bounding_box get_bounding_box();
-		//vector<vertex_rgba_uv> verticies();
 		void move( const Direction in_direction );
 		void rotate( Rotation in_rotation );
-		void add_blocks( std::wstring texture_diffuse );
+		void add_blocks( wstring texture_diffuse );
 		void set_position( const XMFLOAT3 in_position );
 		bool within_playfield( const Direction in_direction );
 		bool within_playfield( const Rotation in_rotation );
 		//bool within_playfield( const vector<vertex_rgba_uv> & in_verticies );
 		XMFLOAT3 get_centre();
+		Bounding_box get_bounding_box();
+		vector<vertex_rgba_uv> get_verticies();
+		void rotation_z_about_point( vector<vertex_rgba_uv> & verticies , XMFLOAT3 point , float radians );
+		Bounding_box get_bounding_box( const vector<vertex_rgba_uv> & verticies );
+
+		//XMFLOAT2 get_block_size();
 
 		//bool can_fit
 		//bool block_obstructing(const playfield_blocks * in_blocks, const string in_direction){}
@@ -61,7 +67,7 @@ class Tetrimino //: public State< Tetrimino > //: public Game_actor
 		//Grid_size					grid_size {};
 		enum class					states { next , falling , fast_drop , hard_drop , moving , rotating , sliding , locked , };  // row_made , delete_row_blocks
 
-		State * state;
+		State< Tetrimino > * state = nullptr;
 
 		//std::map < wstring , DirectX::XMINT2 > translate;
 		//rectangle					border{};
