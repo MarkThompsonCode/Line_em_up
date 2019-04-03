@@ -38,7 +38,8 @@ class Tetrimino : public Game_actor
 	private:
 
 		void move( const Direction in_direction );
-		void rotate( Rotation in_rotation );
+		//void rotate( const float in_angle );
+		void rotate( const Rotation in_rotation );
 		void add_blocks( wstring texture_diffuse );
 		void set_position( const XMFLOAT3 in_position );
 		bool within_playfield( const Direction in_direction );

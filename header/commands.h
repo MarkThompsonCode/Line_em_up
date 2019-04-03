@@ -15,6 +15,7 @@ class Rotate : public Command
 
 		virtual void execute( Game_actor & in_actor ) override
 		{
+			//actor.state( rotating );
 			in_actor.try_rotate( rotation_direction );
 		}
 

@@ -16,8 +16,8 @@ void Tetrimino::create( const vector< XMFLOAT2 >	block_positions_relative ,
 	//directions.insert( make_pair( Direction::up  , XMFLOAT2(  0.0f ,  1.0f ) ) );
 	directions.insert( make_pair( Direction::down  , XMFLOAT2(  0.0f , -1.0f ) ) );
 
-	rotations.insert( make_pair( Rotation::clock_wise ,			static_cast< float >( M_PI_4 ) ) );
-	rotations.insert( make_pair( Rotation::counter_clock_wise , static_cast< float >( -M_PI_4 ) ) );
+	rotations.insert( make_pair( Rotation::clock_wise ,			static_cast< float >(  M_PI_2 ) ) );
+	rotations.insert( make_pair( Rotation::counter_clock_wise , static_cast< float >( -M_PI_2 ) ) );
 
 	add_blocks( texture_diffuse );
 
@@ -186,7 +186,7 @@ void Tetrimino::rotation_z_about_point( std::vector<vertex_rgba_uv> & verticies 
 	}
 }
 
-bool Tetrimino::within_playfield( const Rotation in_rotation )
+bool Tetrimino::within_playfield( const Rotation in_radians )
 {
 	Bounding_box playfield_box			= playfield->get_bounding_box();
 	Bounding_box tetri_box				= get_bounding_box();
@@ -194,7 +194,7 @@ bool Tetrimino::within_playfield( const Rotation in_rotation )
 
 	//debug_out( "\n tetri_box min.y = %.2f" , tetri_box.min.y );
 	
-	rotation_z_about_point( verticies , get_centre() , rotations.at( in_rotation ) );
+	rotation_z_about_point( verticies , get_centre() , rotations.at( in_radians ) );
 
 	tetri_box = get_bounding_box( verticies ); // box HAS to be re-calculated after a rotation	
 
@@ -230,12 +230,14 @@ bool Tetrimino::within_playfield( const Direction in_direction )
 	return true;
 }
 
-void Tetrimino::rotate( Rotation in_rotation )
+void Tetrimino::rotate( const Rotation in_rotation )
+//void Tetrimino::rotate( const float in_angle )
 {
 	XMFLOAT3 centre = get_centre(); // get_tetri_centre()
 
 	for( auto & block : blocks )
 	{
+		//block.rotation_z_about_point( centre , in_angle ); 
 		block.rotation_z_about_point( centre , rotations.at( in_rotation ) );
 	}
 }
@@ -244,6 +246,7 @@ void Tetrimino::try_rotate( Rotation in_rotation )
 {
 	if( within_playfield( in_rotation ) )
 	{
+		//state = new Rotating( in_rotation );
 		rotate( in_rotation );
 	}
 }

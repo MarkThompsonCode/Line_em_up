@@ -49,6 +49,9 @@ class Line_em_up : public Game
 
 		Timer					timer;
 
+		unsigned int frames_rendered = 0.0f;
+		unsigned int frames_per_second = 0.0f;
+
 		// stage = speed ( difficulty )
 		const std::map< uint , float >		level_fall_rates{ { 1u , 1.0f } };	// 1 block per second
 		double								drop_velocity{ -1.0 }; // playfield square per second
